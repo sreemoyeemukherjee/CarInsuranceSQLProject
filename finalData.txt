@@ -1,0 +1,171 @@
+--- Makeup data with the following format:  clientNumber, FirstName, LastName, Phone, email, webaddress, street,city,state, zipcode
+
+INSERT INTO CLIENT
+VALUES ('C1', 'Atticus', 'Arlo', '206-111-1111', 'attar@gmail.com','https://attar.com', '100 S 174TH ST', 'SEATTLE', 'WA', '98148');
+INSERT INTO CLIENT
+VALUES ('C2', 'Benjamin', 'Bratt', '201-200-2222', 'benbratt@gmail.com', 'https://benjbrat.gov', '2nd Franklin Street', 'New Jersy', 'NJ', '14202');
+INSERT INTO CLIENT
+VALUES ('C3', 'Carlos', 'Cruz', '617-880-9283', 'carloscru@gmail.com', 'https://CC3.edu', '33 Becon street', 'Boston', 'MA', '22903');
+INSERT INTO CLIENT
+VALUES ('C4', 'Dana', 'Dawson', '770-404-4404', 'Danadaw@gmail.com', 'https://dominicDistefano.io', '710 PEACHTREE ST', 'ATLANTA', 'GA', '30308');
+INSERT INTO CLIENT
+VALUES ('C5', 'Edward', 'Evan', '770-505-8725', 'edev@gmail.com', NULL, '300 PEACHTREE ST', 'ATLANTA', 'GA', '30308');
+INSERT INTO CLIENT
+VALUES ('C6', 'Frank', 'Fernandez', '305-663-6366', 'frankfernandez@gmail.com', 'https://frankfernandez.com', '829 NW 1ST ST MIAMI FL', 'MIAMI', 'FL', '33101');
+INSERT INTO CLIENT
+VALUES ('C7', 'George', 'Garcia', '312-770-0007', 'georgegarcia@gmail.com', 'https://georgegarcia.com', '4800 S PRINCETON AVE', 'CHICAGO', 'IL', '60602');
+INSERT INTO CLIENT
+VALUES ('C8', 'Hector', 'Hernandez', '214-800-0800', 'hectorhernandez@gmail.com', 'https://hectorhernandez.com', ' 4921 BRYAN ST', 'DALLAS', 'TX', '75201');
+INSERT INTO CLIENT
+VALUES ('C9', 'Ivan', 'Ibarra', '713-919-9099', 'ivanibarra@gmail.com', 'https://ivanibarra.com', '4600 ALDINE BENDER RD', 'HOUSTON', 'TX', '77002');
+INSERT INTO CLIENT
+VALUES ('C10', 'Jose', 'Jimenez', '210-100-1000', 'josejimenez@gmail.com', 'https://josejimenez.com', '800 HAYS ST ', 'SAN ANTONIO', 'TX', '78201');
+INSERT INTO CLIENT
+VALUES ('C11', 'Kevin', 'Klein', '212-111-0111', 'kevinklein@gmail.com', 'https://kevinklein.com', '10th Ave', 'NEW YORK', 'NY', '10001');
+INSERT INTO CLIENT
+VALUES ('C12', 'Luis', 'Lopez', '215-012-1212', 'luislopez@gmail.com', 'https://luislopez.org', ' 801 WELTON ST', 'PHILADELPHIA', 'PA', '19019');
+INSERT INTO CLIENT
+VALUES ('C13', 'Michael', 'Martinez', '617-133-3313', 'michaelmartinez@gmail.com', 'https://michaelmartinez.io', '700 Commenwealth Ave', 'Boston', 'MA', '02215');
+INSERT INTO CLIENT
+VALUES ('C14', 'Nathan', 'Nguyen', '206-144-0014', 'nathanguyen@gmail.com', 'https://nathanguyen.gov', '800 N ALLEN PL', 'SEATTLE', 'WA', '98103');
+INSERT INTO CLIENT
+VALUES ('C15', 'Oscar', 'Ochoa', '470-155-0150', 'oscarochoa@gmail.com', 'https://oscarochoa.edu', '41 MARIETTA ST','ATLANTA', 'GA', '30303');
+
+
+INSERT INTO Outlet
+VALUES ('O1', '1201 ORANGE AVE', 'SEATTLE', 'WA', '98114', '206-111-2489', NULL);
+INSERT INTO Outlet
+VALUES ('O2', '114 EAST SAVANNAH', 'ATLANTA', 'GA', '30314', '770-222-8725', NULL);
+INSERT INTO Outlet
+VALUES ('O3', '1333 COMMONWEALTH AVE', 'BOSTON', 'MA', '22903', '617-333-1341', NULL);
+
+INSERT INTO Employee
+VALUES ('E10', 'Forrest', 'Zhang', 'Admin', '206-111-1111', 'fz@rental.com', '22-AUG-2001', 'Male', 500000.00, '11-NOV-2015', 'O1', 'E10');
+INSERT INTO Employee
+VALUES ('E11', 'Sarah', 'Popp', 'Sales Rep', '206-333-3333', 'sp@rental.com', '12-JUN-1996', 'Female', 300000.00, '14-JAN-2020', 'O1', 'E10');
+INSERT INTO Employee
+VALUES ('E12', 'Parth', 'Verma', 'Sales Rep', '206-666-6666', 'pv@rental.com', '05-JAN-1997', 'Male', 350000.00, '08-MAR-2017', 'O1', 'E10');
+INSERT INTO Employee
+VALUES ('E13', 'Chuck', 'Justin', 'Mechanic', '206-098-0292', 'cj@rental.com', '05-APR-1991', 'Male', 350000.00, '08-MAR-2017', 'O1', 'E10');
+INSERT INTO Employee
+VALUES ('E20', 'Peter', 'Siska', 'Admin', '770-777-7777', 'ps@rental.com', '18-JUL-1995', 'Male', 200000.00, '13-SEP-2019', 'O2', 'E10');
+INSERT INTO Employee
+VALUES ('E21', 'Sreemoyee', 'Mukherjee', 'Admin', '770-210-2002', 'sm@rental.com', '22-MAY-1997', 'Female', 200000.00, '16-DEC-2020', 'O2', 'E20');
+INSERT INTO Employee
+VALUES ('E22', 'Robert', 'Hertz', 'Sales Rep', '770-666-6666', 'rh@rental.com', '20-NOV-1980', 'Male', 350000.00, '08-MAR-2017', 'O2', 'E20');
+INSERT INTO Employee
+VALUES ('E23', 'Bob', 'Bibby', 'Mechanic', '770-098-0292', 'bb@rental.com', '05-DEC-1976', 'Male', 350000.00, '08-JAN-2019', 'O2', 'E20');
+INSERT INTO Employee
+VALUES ('E30', 'Taylor', 'Becker', 'Admin', '617-444-4234', 'tb@rental.com', '10-DEC-1998', 'Female', 150000.00, '21-DEC-2021', 'O3', 'E10');
+INSERT INTO Employee
+VALUES ('E31', 'Sam', 'Harvey', 'Mechanic', '617-525-5425', 'sh@rental.com', '13-SEP-2000', 'Male', 180000.00, '01-AUG-2020', 'O3', 'E30');
+INSERT INTO Employee
+VALUES ('E32', 'Peter', 'Parker', 'Sales Rep', '617-202-3123', 'pp@rental.com', '10-AUG-2001', 'Male', 350000.00, '08-AUG-2020', 'O3', 'E30');
+
+UPDATE Outlet
+SET ManagerNo = 'E10' WHERE  OutNo = 'O1';
+UPDATE Outlet
+SET ManagerNo = 'E20' WHERE  OutNo = 'O2';
+UPDATE Outlet
+SET ManagerNo = 'E30' WHERE  OutNo = 'O3';
+
+INSERT INTO VEHICLE
+VALUES ('LTC1111', 'Nissan','Altima', 'White', 2019, 4, 5, 100, '17-JAN-2021', 'O1');
+INSERT INTO VEHICLE
+VALUES ('NIS6621', 'Nissan','Altima', 'Green', 2020, 4, 5, 120, '17-JAN-2020', 'O1');
+INSERT INTO VEHICLE
+VALUES ('CAM1011', 'Toyota','Camry', 'Black', 2021, 4, 5, 90, '12-AUG-2021','O1');
+INSERT INTO VEHICLE
+VALUES ('ACC2301', 'Honda','Accord', 'Red', 2022, 4, 5, 120, '12-AUG-2022','O1');
+INSERT INTO VEHICLE
+VALUES ('FUS2301', 'Ford','Fusion', 'Blue', 2022, 4, 5, 100, '12-AUG-2022','O1');
+
+INSERT INTO VEHICLE
+VALUES ('BMW2212', 'BMW','X4', 'Black', 2013, 4, 5, 200, '17-AUG-2021','O2');
+INSERT INTO VEHICLE
+VALUES ('SWF5512', 'Maruti', 'Swift', 'Black', 2015, 4, 5, 50, '14-APR-2021','O2');
+INSERT INTO VEHICLE
+VALUES ('BMW7712', 'BMW','X4', 'Black', 2014, 4, 5, 200, '17-AUG-2021','O2');
+INSERT INTO VEHICLE
+VALUES ('MAL7712', 'Chevrolet','Malibu', 'Green', 2022, 4, 5, 200, '17-FEB-2022','O2');
+INSERT INTO VEHICLE
+VALUES ('HYN7712', 'Hyundai','Sonata', 'Yellow', 2022, 4, 5, 200, '17-FEB-2022','O2');
+
+INSERT INTO VEHICLE
+VALUES ('AUD3303', 'Audi', 'A6' ,'Red', 2012, 2, 2, 300, '17-AUG-2021','O3');
+INSERT INTO VEHICLE
+VALUES ('HOD4003', 'Honda', 'Civic','Blue', 2016, 4, 5, 50, '14-APR-2021','O3');
+INSERT INTO VEHICLE
+VALUES ('MAL3033', 'Chevrolet','Malibu', 'Green', 2022, 4, 5, 200, '17-MAR-2022','O3');
+INSERT INTO VEHICLE
+VALUES ('HYN3903', 'Hyundai','Sonata', 'Yellow', 2022, 4, 5, 200, '17-MAR-2022','O2');
+INSERT INTO VEHICLE
+VALUES ('ACC2003', 'Ford','Fusion', 'Blue', 2022, 4, 5, 100, '12-MAR-2022','O3');
+
+
+INSERT INTO Ragreement
+VALUES ('R010', TO_DATE('11-JAN-2022 08:30:24', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('15-JAN-2022 22:00:20', 'DD-MON-YYYY HH24:MI:SS'), '10000', '20000', 'Collision coverage', 'C1', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R011', TO_DATE('01-JAN-2022 10:20:24', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-JAN-2022 10:00:20', 'DD-MON-YYYY HH24:MI:SS'), '2000', '3000', 'Collision coverage', 'C14', 'CAM1011');
+INSERT INTO Ragreement
+VALUES ('R031', TO_DATE('13-MAR-2022 09:20:23', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('15-MAR-2022 9:30:20', 'DD-MON-YYYY HH24:MI:SS'), '60030', '60300', 'Comprehensive coverage', 'C1', 'SWF5512');
+INSERT INTO Ragreement
+VALUES ('R032', TO_DATE('01-MAR-2022 09:10:23', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('20-MAR-2022 9:05:20', 'DD-MON-YYYY HH24:MI:SS'), '30405', '40910', 'Comprehensive coverage', 'C13', 'MAL7712');
+INSERT INTO Ragreement
+VALUES ('R041', TO_DATE('01-APR-2022 09:20:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('12-APR-2022 10:01:21', 'DD-MON-YYYY HH24:MI:SS'), '20301', '30502', 'Collision coverage', 'C2', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R050', TO_DATE('05-MAY-2022 10:27:22', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-MAY-2022 11:11:09', 'DD-MON-YYYY HH24:MI:SS'), '20120', '20293', 'Comprehensive coverage', 'C11', 'HYN7712');
+INSERT INTO Ragreement
+VALUES ('R060', TO_DATE('02-JUL-2022 10:27:22', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-JUL-2022 11:11:09', 'DD-MON-YYYY HH24:MI:SS'), '1000', '1500', 'Comprehensive coverage', 'C10', 'HYN3903');
+INSERT INTO Ragreement
+VALUES ('R071', TO_DATE('22-JUL-2022 07:20:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('25-JUL-2022 09:20:21', 'DD-MON-YYYY HH24:MI:SS'), '10000', '20000', 'Comprehensive coverage', 'C2', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R072', TO_DATE('01-JUL-2022 06:26:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('12-JUL-2022 10:30:21', 'DD-MON-YYYY HH24:MI:SS'), '14002', '14900', 'Collision coverage', 'C2', 'BMW2212');
+INSERT INTO Ragreement
+VALUES ('R081', TO_DATE('08-AUG-2022 10:21:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('23-AUG-2022 10:18:21', 'DD-MON-YYYY HH24:MI:SS'), '14900', '15900', 'Liability coverage', 'C1', 'BMW2212');
+INSERT INTO Ragreement
+VALUES ('R082', TO_DATE('01-AUG-2022 10:20:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('04-AUG-2022 10:30:11', 'DD-MON-YYYY HH24:MI:SS'), '18809', '18900', 'Collision coverage', 'C2', 'AUD3303');
+INSERT INTO Ragreement
+VALUES ('R091', TO_DATE('08-SEP-2022 10:26:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('20-SEP-2022 10:30:09', 'DD-MON-YYYY HH24:MI:SS'), '22300', '23021', 'Collision coverage', 'C2', 'AUD3303');
+INSERT INTO Ragreement
+VALUES ('R092', TO_DATE('22-SEP-2022 10:05:02', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('23-SEP-2022 10:00:21', 'DD-MON-YYYY HH24:MI:SS'), '21030', '21400', 'Liability coverage', 'C1', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R111', TO_DATE('11-NOV-2022 08:30:24', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('14-NOV-2022 10:05:10', 'DD-MON-YYYY HH24:MI:SS'), '15900', '17890', 'Collision coverage', 'C1', 'BMW2212');
+INSERT INTO Ragreement
+VALUES ('R112', TO_DATE('13-NOV-2022 16:15:09', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('01-DEC-2022 11:42:16', 'DD-MON-YYYY HH24:MI:SS'), '30120', '32103', 'Comprehensive coverage', 'C2', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R113', TO_DATE('02-NOV-2022 16:15:09', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('10-NOV-2022 11:42:16', 'DD-MON-YYYY HH24:MI:SS'), '23021', '24020', 'Comprehensive coverage', 'C3', 'AUD3303');
+INSERT INTO Ragreement
+VALUES ('R114', TO_DATE('05-SEP-2022 08:15:41', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-SEP-2022 12:35:18', 'DD-MON-YYYY HH24:MI:SS'), '18906', '19875', 'Comprehensive coverage', 'C1', 'NIS6621');
+INSERT INTO Ragreement
+VALUES ('R115', TO_DATE('3-OCT-2022 17:27:32', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('05-OCT-2022 08:17:21', 'DD-MON-YYYY HH24:MI:SS'), '16905', '17953', 'Liability coverage', 'C2', 'HOD4003');
+INSERT INTO Ragreement
+VALUES ('R116', TO_DATE('16-OCT-2022 15:09:33', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('19-OCT-2022 13:53:06', 'DD-MON-YYYY HH24:MI:SS'), '18007', '19605', 'Liability coverage', 'C3', 'HOD4003');
+INSERT INTO Ragreement
+VALUES ('R117', TO_DATE('25-NOV-2022 18:25:43', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('27-NOV-2022 09:38:20', 'DD-MON-YYYY HH24:MI:SS'), '19905', '20897', 'Liability coverage', 'C1', 'HOD4003');
+INSERT INTO Ragreement
+VALUES ('R118', TO_DATE('21-OCT-2022 08:56:21', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('23-OCT-2022 13:35:46', 'DD-MON-YYYY HH24:MI:SS'), '12480', '14796', 'Collision coverage', 'C5', 'BMW7712');
+INSERT INTO Ragreement
+VALUES ('R119', TO_DATE('05-DEC-2022 10:27:22', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-DEC-2022 11:11:09', 'DD-MON-YYYY HH24:MI:SS'), '20080', '21808', 'Comprehensive coverage', 'C4', 'NIS6621');
+
+
+INSERT INTO FaultReport
+VALUES ('FR1', '12-OCT-2022', 'Door is jammed', 'E30', 'HOD4003', 'R115');
+INSERT INTO FaultReport
+VALUES ('FR2', TO_DATE('23-NOV-2022 15:45:30', 'DD-MON-YYYY HH24:MI:SS'), 'Back left window is broken', 'E31', 'AUD3303', 'R113');
+INSERT INTO FaultReport
+VALUES ('FR3', '19-OCT-2022', 'Glasses are broken', 'E30', 'HOD4003', 'R116');
+INSERT INTO FaultReport
+VALUES ('FR4', '30-NOV-2022', 'Wheel broken ', 'E31', 'HOD4003', 'R117');
+INSERT INTO FaultReport
+VALUES ('FR5', TO_DATE('09-JAN-2022 10:00:20', 'DD-MON-YYYY HH24:MI:SS'), 'Camary lights not working', 'E31', 'CAM1011', 'R011');
+INSERT INTO FaultReport
+VALUES ('FR6', TO_DATE('02-MAR-2022 09:10:23', 'DD-MON-YYYY HH24:MI:SS'), 'Bumper is gone', 'E21', 'MAL7712', 'R032');
+INSERT INTO FaultReport
+VALUES ('FR7', TO_DATE('06-MAY-2022 07:10:23', 'DD-MON-YYYY HH24:MI:SS'), 'Wheels not turing', 'E20', 'HYN7712', 'R050');
+INSERT INTO FaultReport
+VALUES ('FR8', TO_DATE('03-JUL-2022 07:00:23', 'DD-MON-YYYY HH24:MI:SS'), 'Rear lights not working', 'E22', 'HYN3903', 'R060');
+INSERT INTO FaultReport
+VALUES ('FR9', TO_DATE('06-DEC-2022 07:00:23', 'DD-MON-YYYY HH24:MI:SS'), 'Car GPS not working', 'E12', 'NIS6621', 'R119');
+INSERT INTO FaultReport
+VALUES ('FR10', TO_DATE('22-OCT-2022 07:10:09', 'DD-MON-YYYY HH24:MI:SS'), 'Flat Wheels', 'E21', 'BMW7712', 'R118');

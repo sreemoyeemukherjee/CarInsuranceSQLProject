@@ -1,0 +1,59 @@
+DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
+DROP TABLE FAULTREPORT CASCADE CONSTRAINTS;
+DROP TABLE OUTLET CASCADE CONSTRAINTS;
+ 
+CREATE TABLE Outlet
+(OutNo     CHAR(3),
+ Street    VARCHAR2(18),
+ City      VARCHAR2(15),
+ State     VARCHAR2(2),
+ ZipCode   VARCHAR2(5),
+ Phone     VARCHAR2(12),
+ ManagerNo CHAR(3),
+ CONSTRAINT Outlet_OutNo_PK      PRIMARY KEY (OutNo));
+
+CREATE TABLE Employee
+(EmpNo    CHAR(3),
+ FName    VARCHAR2(20),
+ LName    VARCHAR2(20),
+ Position VARCHAR2(10),
+ Phone    VARCHAR2(12),
+ Email    VARCHAR2(20),
+ DOB      DATE DEFAULT SYSDATE,
+ Gender   VARCHAR2(10),
+ Salary   Number(9,2),
+ HireDate DATE DEFAULT SYSDATE,
+ OutNo    CHAR(3),
+ Super_No CHAR(3),
+ CONSTRAINT Employee_EmpNo_PK     PRIMARY KEY (EmpNo),
+ CONSTRAINT Employee_Email_CheckEmail CHECK (Email LIKE '%_@company.com'));
+ 
+CREATE TABLE FaultReport
+(ReportNum    CHAR(3),
+ DateChecked  DATE DEFAULT SYSDATE,
+ Comments     VARCHAR2(300),
+ EmpNo        CHAR(3),
+ LicenseNo    CHAR(3),
+ RentalNo     CHAR(3),
+ CONSTRAINT FaultReport_ReportNum_PK     PRIMARY KEY (ReportNum),
+ CONSTRAINT FaultReport_EmpNo_FK     FOREIGN KEY (EmpNo) REFERENCES  Employee (EmpNo),
+ CONSTRAINT FaultReport_LicenseNo_FK  FOREIGN KEY (LicenseNo) REFERENCES  Vehicle (LicenseNo),
+ CONSTRAINT FaultReport_RentalNo_FK  FOREIGN KEY (RentalNo) REFERENCES  Ragreement (RentalNo));
+
+ALTER TABLE Outlet
+ADD CONSTRAINT Outlet_ManagerNo_FK  FOREIGN KEY (ManagerNo) REFERENCES  Employee (EmpNo);
+
+
+INSERT INTO Employee VALUES ('E1', 'Sara', 'Zhang', 'Manager', '412-111-1111', 'e1@company.com', '22-AUG-2001', 'Female', 547269.00, '11-NOV-2020', 'O1', 'E1');
+INSERT INTO Employee VALUES ('E2', 'Sreemoyee', 'Mukherjee', 'Employee', '412-222-2222', 'e2@company.com', '22-MAY-1997', 'Female', 5890533.00, '16-DEC-2021', 'O2', 'E1');
+ 
+INSERT INTO Outlet VALUES ('O1', '1201 ORANGE AVE', 'SEATTLE', 'WA', '98114', '800-555-8284', 'E1');
+INSERT INTO Outlet VALUES ('O2', '114 EAST SAVANNAH', 'ATLANTA', 'GA', '30314', '800-453-8725', 'E2');
+
+ALTER TABLE Employee
+ADD CONSTRAINT Employee_OutNo_FK     FOREIGN KEY (OutNo) REFERENCES  Outlet (OutNo);
+ALTER TABLE Employee
+ADD CONSTRAINT Employee_Super_No_FK  FOREIGN KEY (Super_No) REFERENCES  Employee (EmpNo);
+
+
+COMMIT;

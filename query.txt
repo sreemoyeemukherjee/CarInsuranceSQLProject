@@ -1,0 +1,238 @@
+SET ECHO ON
+SET FEEDBACK ON
+SET PAGESIZE 150
+SET LINESIZE 150
+
+--- Q1 
+COLUMN "Start_Date" FORMAT A20;
+COLUMN "Return_Date" FORMAT A20;
+COLUMN "Date_Checked" FORMAT A20;
+SELECT r.rentalno, TO_CHAR(startdate, 'DD-MON-YYYY HH24:MI:SS') "Start_Date",
+		TO_CHAR(returndate, 'DD-MON-YYYY HH24:MI:SS') "Return_Date",
+		licenseno, outno, make, model, year,
+		TO_CHAR(datechecked, 'DD-MON-YYYY HH24:MI:SS') "Date_Checked"
+FROM ragreement r JOIN vehicle USING (licenseno)
+				JOIN faultreport USING (licenseno)
+WHERE EXTRACT(MONTH FROM startdate) = EXTRACT(MONTH FROM SYSDATE) - 1;
+
+RENTALN Start_Date           Return_Date          LICENSE OUTNO   MAKE            MODEL                 YEAR Date_Checked
+------- -------------------- -------------------- ------- ------- --------------- --------------- ---------- --------------------
+R111    11-NOV-2022 08:30:24 04-DEC-2022 10:05:10 BMW2212 O2      BMW             C300                  2013 01-DEC-2022 00:00:00
+R112    13-NOV-2022 16:15:09 01-DEC-2022 11:42:16 LTC1111 O1      Nissan          Altima                2019 23-SEP-2021 15:45:30
+R111    11-NOV-2022 08:30:24 04-DEC-2022 10:05:10 BMW2212 O2      BMW             C300                  2013 23-AUG-2022 00:00:00
+
+3 rows selected.
+
+--- Q2
+SELECT DECODE(outno, NULL, 'Total Rentals',
+              outno) "Outlet",
+       SUM(DECODE(EXTRACT(MONTH FROM startdate),7,1,0)) "July 22",
+       SUM(DECODE(EXTRACT(MONTH FROM startdate),8,1,0)) "August 22",
+       SUM(DECODE(EXTRACT(MONTH FROM startdate),9,1,0)) "September 22",
+       COUNT(licenseno) "Outlet Total"
+FROM   outlet JOIN vehicle USING (outno)
+		JOIN ragreement USING (licenseno)
+GROUP BY GROUPING SETS (outno,())
+ORDER BY outno;
+
+Outlet           July 22  August 22 September 22 Outlet Total
+------------- ---------- ---------- ------------ ------------
+O1                     1          0            1            5
+O2                     1          1            0            4
+O3                     0          1            1            2
+Total Rentals          2          2            2           11
+
+--- Q3 -- 
+SELECT LicenseNo, Make, Model, AGE, SUM(MilesDriven) as MilesDriven, MAX(MileageAfter) as odometer, COUNT(RentalNo) as "#Fault Report"
+FROM(
+    SELECT vehicle.LicenseNo, Make, Model, (EXTRACT(YEAR FROM SYSDATE)- vehicle.year) AS Age, 
+    (MileageAfter - MileageBefore) AS MilesDriven, 
+    MileageAfter, outNo, fr.RentalNo
+    FROM vehicle LEFT JOIN ragreement ON vehicle.LicenseNo = ragreement.LicenseNo
+                 LEFT JOIN faultReport fr ON (fr.LicenseNo = vehicle.LicenseNo 
+                                        AND fr.RentalNo = ragreement.RentalNo)
+    WHERE (EXTRACT(YEAR FROM SYSDATE)- vehicle.year) >= 5
+)
+GROUP BY LicenseNo, Make, Model, AGE, outNo;
+
+LICENSE MAKE            MODEL                  AGE MILESDRIVEN ODOMETER        #Fault Report
+------- --------------- --------------- ---------- ----------- --------------- -------------
+BMW2212 BMW             C300                     9        3888 17890                       2
+SWF5515 Maruti          Swift                    7         270 60300                       1
+AUD3303 Audi            A6                      10        1811 24020                       0
+HOD4004 Honda           Civic                    6                                         0
+
+--- q4 
+
+SELECT Denominator.Quarter, Denominator.make, Denominator.bottom AS RentalCount, NVL(Numerator.up / Denominator.bottom,0) as likelihood, 
+rank() over (Partition By Denominator.Quarter Order by NVL(Numerator.up / Denominator.bottom,0) DESC) as rank
+FROM (SELECT Quarter, make, COUNT(ReportNum) as up
+FROM (SELECT CASE WHEN Datechecked BETWEEN '01-JAN-22' AND '31-MAR-22' THEN 'Q1'
+            WHEN Datechecked BETWEEN '01-APR-2022' AND '30-JUN-2022' THEN 'Q2'
+            WHEN Datechecked BETWEEN '01-JUL-2022' AND '30-SEP-2022' THEN 'Q3'
+            WHEN Datechecked BETWEEN '01-OCT-2022' AND '31-DEC-2022' THEN 'Q4' END 
+            AS Quarter, make,  ReportNum
+FROM FaultReport join Vehicle USING(LicenseNo)
+WHERE Datechecked >= '01-JAN-2022')
+Group by  Quarter, make
+
+) Numerator RIGHT JOIN 
+(SELECT Quarter, make, COUNT(RentalNo) as bottom
+FROM (SELECT CASE WHEN Startdate BETWEEN '01-JAN-22' AND '31-MAR-22' THEN 'Q1'
+            WHEN Startdate BETWEEN '01-APR-2022' AND '30-JUN-2022' THEN 'Q2'
+            WHEN Startdate BETWEEN '01-JUL-2022' AND '30-SEP-2022' THEN 'Q3'
+            WHEN Startdate BETWEEN '01-OCT-2022' AND '31-DEC-2022' THEN 'Q4' END 
+            AS Quarter, make,  RentalNo
+FROM Ragreement join Vehicle USING(LicenseNo)
+WHERE Startdate >= '01-JAN-2022') 
+GROUP BY Quarter, make) Denominator ON Numerator.Quarter = Denominator.Quarter and Numerator.make = Denominator.make
+Order by Quarter, Rank;
+
+
+
+QU MAKE            RENTALCOUNT LIKELIHOOD       RANK
+-- --------------- ----------- ---------- ----------
+Q1 Maruti                    1          0          1
+Q1 Nissan                    1          0          1
+Q2 Nissan                    1          0          1
+Q3 Audi                      2          0          1
+Q3 BMW                       2          0          1
+Q3 Nissan                    3          0          1
+Q4 Audi                      1          1          1
+Q4 Honda                     3          1          1
+Q4 Nissan                    1          0          3
+Q4 BMW                       1          0          3
+
+10 rows selected.
+
+--- Q5
+
+SELECT model, C, (X / SUM(X) OVER())*100 AS "%Revenue"
+FROM (SELECT model, COUNT(DISTINCT licenseno) C, SUM(ROUND(returndate - startdate) * dailyrate) X
+FROM vehicle LEFT JOIN (SELECT * FROM ragreement WHERE EXTRACT(MONTH FROM startdate) IN (7, 8, 9))
+ USING (licenseno)
+GROUP BY model)
+WHERE X IS NOT NULL
+ORDER BY 3 DESC;
+
+MODEL                    C   %Revenue
+--------------- ---------- ----------
+X4                       2 49.7131931
+A6                       1 43.0210325
+Altima                   2 7.26577438
+
+3 rows selected.
+
+--- Q6
+
+COLUMN "Employee" FORMAT A35;
+SELECT LEVEL, LPAD(' ', 3*(LEVEL-1)) || empno || fname || ' ' || UPPER(lname) "Employee", position, street, city, state, zipcode, c
+FROM( SELECT empno, fname, lname, position, street, city, state, zipcode, COUNT(reportnum) c, super_no
+FROM employee LEFT JOIN outlet USING (outno)
+	LEFT JOIN faultreport USING (empno)
+WHERE (SYSDATE - NVL(datechecked, SYSDATE)) <= 90
+GROUP BY empno, fname, lname, position, street, city, state, zipcode, super_no)
+START WITH empno = 'E1'
+CONNECT BY PRIOR empno = super_no;
+
+     LEVEL Employee                            POSITION   STREET                         CITY            ST ZIPCO          C
+---------- ----------------------------------- ---------- ------------------------------ --------------- -- ----- ----------
+         1 E1     Forrest ZHANG                Sales Rep  1201 ORANGE AVE                SEATTLE         WA 98114          0
+         2    E3     Sarah POPP                Sales Rep  1201 ORANGE AVE                SEATTLE         WA 98114          0
+         2    E5     Sam HARVEY                Mechanic   1333 COMMONWEALTH AVE          BOSTON          MA 22903          1
+         3       E4     Taylor BECKER          Mechanic   1333 COMMONWEALTH AVE          BOSTON          MA 22903          3
+         2    E6     Parth VERMA               Sales Rep  1201 ORANGE AVE                SEATTLE         WA 98114          0
+         2    E7     Peter SISKA               Admin      114 EAST SAVANNAH              ATLANTA         GA 30314          0
+         3       E2     Sreemoyee MUKHERJEE    Admin      114 EAST SAVANNAH              ATLANTA         GA 30314          0
+
+7 rows selected.
+
+--- Q7
+
+SELECT outno, COUNT(DISTINCT licenseno) "#Vehicle(s)", COUNT(DISTINCT rentalno) "#Rental(s)",
+		ROUND(AVG(MileageAfter-MileageBefore)) "Avg dist in Miles", COUNT(DISTINCT empno) "#Employee(s)",
+		ROUND(COUNT(DISTINCT rentalno)/COUNT(DISTINCT empno)) "#Rental(s) per employee"
+FROM employee JOIN outlet USING (outno)
+		JOIN vehicle USING (outno)
+		LEFT JOIN (SELECT * FROM ragreement WHERE (SYSDATE - startdate) <= 60) USING (licenseno)
+GROUP BY outno;
+
+OUTNO   #Vehicle(s) #Rental(s) Avg dist in Miles #Employee(s) #Rental(s) per employee
+------- ----------- ---------- ----------------- ------------ -----------------------
+O1                2          2              1856            3                       1
+O2                3          2              2153            2                       1
+O3                2          3              1196            2                       2
+
+3 rows selected.
+
+
+-- q8
+
+select  fname, lname, total_revenue
+from(select c.clientno,  c.fname, c.lname, round(sum(t.revenue),2) as total_revenue, DENSE_RANK() over (order by sum(t.revenue) desc) as rank
+from (select r.clientno, (r.returndate - r.startdate)* v.dailyrate as revenue
+from client c join ragreement r 
+on c.clientno = r.clientno
+join vehicle v 
+on r.licenseno = v.licenseno) t 
+join client c
+on t.clientno = c.clientno
+group by c.clientno, c.fname, c.lname)
+where rank = 1;
+
+FNAME                LNAME                TOTAL_REVENUE
+-------------------- -------------------- -------------
+BLast                BFirst                     9881.05
+
+--Q9
+select denominator.state, denominator.outno, NVL(numerator.number_of_client,0) as number_of_client, NVL(round(numerator.number_of_client/denominator.total_number_of_client,2),0) as proportion_of_client, NVL(numerator.number_of_rentals,0) as number_of_rentals, NVL(round(numerator.number_of_rentals/denominator.total_number_of_rentals,2),0) as proportion_of_rentals
+from (select o.state, o.outno, count(distinct c.CLIENTNO) as number_of_client, count(r.rentalno) as number_of_rentals
+from outlet o 
+join vehicle v 
+on o.outno = v.outno
+join ragreement r
+on v.licenseno = r.licenseno
+join client c
+on r.clientno = c.clientno
+where c.state = o.state
+group by o.state, o.outno) numerator right join
+(select o.state, o.outno, count(distinct c.CLIENTNO) as total_number_of_client, count(r.rentalno) as total_number_of_rentals
+from outlet o 
+join vehicle v 
+on o.outno = v.outno
+join ragreement r
+on v.licenseno = r.licenseno
+join client c
+on r.clientno = c.clientno
+group by o.state, o.outno) denominator
+on numerator.state = denominator.state and numerator.outno = denominator.outno;
+
+ST OUTNO   NUMBER_OF_CLIENT PROPORTION_OF_CLIENT NUMBER_OF_RENTALS PROPORTION_OF_RENTALS
+-- ------- ---------------- -------------------- ----------------- ---------------------
+MA O3                     1                   .5                 1                   .33
+GA O2                     0                    0                 0                     0
+WA O1                     1                   .5                 2                    .4
+
+--Q10
+select clientType, count(distinct CLIENTNO) as clientCount, count(rentalno) as rentalLastQuarter
+from(select c.CLIENTNO, CASE WHEN c.WEBADDRESS LIKE '%com' THEN 'for-profit company'
+WHEN c.WEBADDRESS LIKE '%gov' THEN 'government agency'
+WHEN c.WEBADDRESS LIKE '%edu' THEN 'educational institution'
+WHEN c.WEBADDRESS LIKE '%org' THEN 'non-forprofit organization'
+WHEN c.WEBADDRESS IS NULL THEN 'not available'
+ELSE 'other' END as clientType, r.rentalno
+from client c left join 
+(select * 
+from ragreement 
+where startdate between '01-JUL-22' and '30-SEP-22') r
+on c.clientno = r.clientno)
+group by clientType;
+
+CLIENTTYPE                 CLIENTCOUNT RENTALLASTQUARTER
+-------------------------- ----------- -----------------
+other                                1                 0
+government agency                    1                 4
+not available                        1                 0
+for-profit company                   1                 2
+educational institution              1                 0
+

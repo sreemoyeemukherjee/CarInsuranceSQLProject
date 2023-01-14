@@ -1,0 +1,112 @@
+DROP TABLE CLIENT CASCADE CONSTRAINTS;
+DROP TABLE Ragreement CASCADE CONSTRAINTS;
+DROP TABLE VEHICLE CASCADE CONSTRAINTS;
+DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
+DROP TABLE FAULTREPORT CASCADE CONSTRAINTS;
+DROP TABLE OUTLET CASCADE CONSTRAINTS;
+
+
+CREATE TABLE Client
+  (
+     ClientNo   CHAR(7),
+     FName      VARCHAR2(20),
+     LName      VARCHAR2(20),
+     Phone      VARCHAR(15),
+     Email      VARCHAR2(25),
+     WebAddress VARCHAR2(100),
+     Street     VARCHAR2(30),
+     City       VARCHAR2(30),
+     State      VARCHAR2(2),
+     ZipCode    CHAR(5),
+     CONSTRAINT Client_ClientNo_PK PRIMARY KEY (ClientNo),
+     CONSTRAINT Client_WebAddress_CK CHECK (WebAddress LIKE 'https%://%'),
+     CONSTRAINT Client_Phone_CK CHECK (Regexp_like(Phone, '^([0-9]{3}-[0-9]{3}-[0-9]{4})$')),
+     CONSTRAINT Client_Email_CK CHECK (Regexp_like(Email,'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$')),
+     CONSTRAINT Client_State_CK CHECK (State In ('AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
+                                                    'KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ',
+                                                    'NM','NY','NC','ND','OH','OK','OR','PA','RL','SC','SD','TN','TX','UT','VT',
+                                                    'VA','WA','WV','WI','WY'))
+  ); 
+
+CREATE TABLE Employee
+(EmpNo    CHAR(7),
+ FName    VARCHAR2(20),
+ LName    VARCHAR2(20),
+ Position VARCHAR2(10),
+ Phone    VARCHAR2(12),
+ Email    VARCHAR2(20),
+ DOB      DATE DEFAULT SYSDATE,
+ Gender   VARCHAR2(10),
+ Salary   Number(9,2),
+ HireDate DATE DEFAULT SYSDATE,
+ OutNo    CHAR(7),
+ Super_No CHAR(7),
+ CONSTRAINT Employee_EmpNo_PK PRIMARY KEY (EmpNo),
+ CONSTRAINT Employee_Email_CheckEmail CHECK (Email LIKE '%_@rental.com'),
+ CONSTRAINT Employee_Email_CK CHECK (Regexp_like(Email,'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$')),
+ CONSTRAINT Employee_Super_No_FK  FOREIGN KEY (Super_No) REFERENCES  Employee (EmpNo));
+
+CREATE TABLE Outlet
+(outNo     CHAR(7),
+ Street    VARCHAR2(30),
+ City      VARCHAR2(15),
+ State     VARCHAR2(2),
+ ZipCode   VARCHAR2(5),
+ Phone     VARCHAR2(12),
+ ManagerNo CHAR(7),
+ CONSTRAINT Outlet_ManagerNo_FK  FOREIGN KEY (ManagerNo) REFERENCES Employee (EmpNo),
+ CONSTRAINT Outlet_OutNo_PK PRIMARY KEY (outNo),
+ CONSTRAINT Outlet_State_CK CHECK (State In ('AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
+                                                    'KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ',
+                                                    'NM','NY','NC','ND','OH','OK','OR','PA','RL','SC','SD','TN','TX','UT','VT',
+                                                    'VA','WA','WV','WI','WY'))
+ );
+
+CREATE TABLE Vehicle
+  (
+     LicenseNo      CHAR(7),
+     Make           VARCHAR(15),
+     Model          VARCHAR(15),
+     Color          VARCHAR(15),
+     Year           INTEGER,
+     NoDoors        INTEGER,
+     Capacity       INTEGER,
+     DailyRate      INTEGER,
+     InspectionDate DATE DEFAULT SYSDATE,
+     outNo          CHAR(7),
+     CONSTRAINT Vehicle_LicenseNo_PK PRIMARY KEY (LicenseNo),
+     CONSTRAINT Vehicle_outNo_FK FOREIGN KEY (outNo) REFERENCES Outlet (outNo)
+  );
+
+CREATE TABLE Ragreement
+  (
+     RentalNo      CHAR(7),
+     StartDate     DATE DEFAULT sysdate,
+     ReturnDate    DATE DEFAULT sysdate,
+     MileageBefore VARCHAR(15),
+     MileageAfter  VARCHAR(15),
+     InsuranceType CHAR(30),
+     ClientNo      CHAR(7),
+     LicenseNo     CHAR(7),
+     CONSTRAINT Ragreement_RentalNo_PK PRIMARY KEY (RentalNo),
+     CONSTRAINT Ragreement_ClientNo_FK FOREIGN KEY (ClientNo) REFERENCES Client (ClientNo),
+     CONSTRAINT Ragreement_LicenseNo_FK FOREIGN KEY (LicenseNo) REFERENCES Vehicle (LicenseNo),
+     CONSTRAINT Ragreement_Mileage_CK CHECK(MileageAfter > MileageBefore)
+  ); 
+
+ 
+CREATE TABLE FaultReport
+(ReportNum    CHAR(7),
+ DateChecked  DATE DEFAULT SYSDATE,
+ Comments     VARCHAR2(300),
+ EmpNo        CHAR(7),
+ LicenseNo    CHAR(7),
+ RentalNo     CHAR(7),
+ CONSTRAINT FaultReport_ReportNum_PK     PRIMARY KEY (ReportNum),
+ CONSTRAINT FaultReport_EmpNo_FK     FOREIGN KEY (EmpNo) REFERENCES  Employee (EmpNo),
+ CONSTRAINT FaultReport_LicenseNo_FK  FOREIGN KEY (LicenseNo) REFERENCES  Vehicle (LicenseNo),
+ CONSTRAINT FaultReport_RentalNo_FK  FOREIGN KEY (RentalNo) REFERENCES  Ragreement (RentalNo));
+
+
+ALTER TABLE Employee
+ADD CONSTRAINT Employee_OutNo_FK FOREIGN KEY (OutNo) REFERENCES  Outlet (OutNo);

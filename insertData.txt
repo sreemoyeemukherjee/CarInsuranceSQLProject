@@ -1,0 +1,142 @@
+"""
+
+
+PLEASE INSERT DATA WITH finalData.txt.
+
+"""
+
+INSERT INTO CLIENT
+VALUES ('C1', 'AFirst', 'ALast', '617-111-1111', 'aa@gmail.com','https://AC1.com', '100 S 174TH ST', 'SEATTLE', 'WA', '98148');
+INSERT INTO CLIENT
+VALUES ('C2', 'BFirst', 'BLast', '617-222-2222', 'BB@gmail.com', 'https://BC2.gov', '2nd Franklin Street', 'New Jersy', 'NJ', '14202');
+INSERT INTO CLIENT
+VALUES ('C3', 'CFirst', 'CLast', '617-880-9283', 'CC@gmail.com', 'https://CC3.edu', '33 Becon street', 'Boston', 'MA', '22903');
+INSERT INTO CLIENT
+VALUES ('C4', 'DFirst', 'DLast', '770-444-8725', 'CC@gmail.com', 'https://DD4.io', '710 PEACHTREE ST', 'ATLANTA', 'GA', '30308');
+INSERT INTO CLIENT
+VALUES ('C5', 'EFirst', 'ELast', '770-505-8725', 'DD@gmail.com', NULL, '710 PEACHTREE ST', 'ATLANTA', 'GA', '30308');
+
+
+INSERT INTO Employee
+VALUES ('E1', 'Forrest', 'Zhang', 'Sales Rep', '412-111-1111', 'e1@rental.com', '22-AUG-2001', 'Male', 500000.00, '11-NOV-2015', '', NULL);
+INSERT INTO Employee
+VALUES ('E2', 'Sreemoyee', 'Mukherjee', 'Admin', '412-222-2222', 'e2@rental.com', '22-MAY-1997', 'Female', 200000.00, '16-DEC-2020', '', NULL);
+INSERT INTO Employee
+VALUES ('E3', 'Sarah', 'Popp', 'Sales Rep', '412-333-3333', 'e3@rental.com', '12-JUN-1996', 'Female', 300000.00, '14-JAN-2020', '', 'E1');
+INSERT INTO Employee
+VALUES ('E4', 'Taylor', 'Becker', 'Mechanic', '412-444-4444', 'e4@rental.com', '10-DEC-1998', 'Female', 150000.00, '21-DEC-2021', '', NULL);
+INSERT INTO Employee
+VALUES ('E5', 'Sam', 'Harvey', 'Mechanic', '412-555-5555', 'e5@rental.com', '13-SEP-2000', 'Male', 180000.00, '01-AUG-2020', '', 'E1');
+INSERT INTO Employee
+VALUES ('E6', 'Parth', 'Verma', 'Sales Rep', '412-666-6666', 'e6@rental.com', '05-JAN-1997', 'Male', 350000.00, '08-MAR-2017', '', 'E1');
+INSERT INTO Employee
+VALUES ('E7', 'Peter', 'Siska', 'Admin', '412-777-7777', 'e7@rental.com', '18-JUL-1995', 'Male', 200000.00, '13-SEP-2019', '', 'E1');
+
+UPDATE Employee
+SET Super_No = 'E7'
+WHERE  EmpNo = 'E2';
+UPDATE Employee
+SET Super_No = 'E5'
+WHERE  EmpNo = 'E4';
+
+INSERT INTO Outlet
+VALUES ('O1', '1201 ORANGE AVE', 'SEATTLE', 'WA', '98114', '206-111-2489', 'E1');
+INSERT INTO Outlet
+VALUES ('O2', '114 EAST SAVANNAH', 'ATLANTA', 'GA', '30314', '770-222-8725', 'E1');
+INSERT INTO Outlet
+VALUES ('O3', '1333 COMMONWEALTH AVE', 'BOSTON', 'MA', '22903', '617-333-1341', 'E1');
+
+UPDATE Employee
+SET OutNo = 'O1'
+WHERE  EmpNo = 'E1';
+UPDATE Employee
+SET OutNo = 'O2'
+WHERE  EmpNo = 'E2';
+UPDATE Employee
+SET OutNo = 'O1'
+WHERE  EmpNo = 'E3';
+UPDATE Employee
+SET OutNo = 'O3'
+WHERE  EmpNo = 'E4';
+UPDATE Employee
+SET OutNo = 'O3'
+WHERE  EmpNo = 'E5';
+UPDATE Employee
+SET OutNo = 'O1'
+WHERE  EmpNo = 'E6';
+UPDATE Employee
+SET OutNo = 'O2'
+WHERE  EmpNo = 'E7';
+
+
+
+INSERT INTO VEHICLE
+VALUES ('LTC1111', 'Nissan','Altima', 'White', 2019, 4, 5, 100, '17-JAN-2021', 'O1');
+INSERT INTO VEHICLE
+VALUES ('BMW2212', 'BMW','X4', 'Black', 2013, 4, 5, 200, '17-AUG-2021','O2');
+INSERT INTO VEHICLE
+VALUES ('AUD3303', 'Audi', 'A6' ,'Red', 2012, 2, 2, 300, '17-AUG-2021','O3');
+INSERT INTO VEHICLE
+VALUES ('HOD4004', 'Honda', 'Civic','Blue', 2016, 4, 5, 50, '14-APR-2021','O3');
+INSERT INTO VEHICLE
+VALUES ('SWF5515', 'Maruti', 'Swift', 'Black', 2015, 4, 5, 50, '14-APR-2021','O2');
+INSERT INTO VEHICLE
+VALUES ('NIS6626', 'Nissan','Altima', 'Green', 2020, 4, 5, 120, '17-JAN-2021', 'O1');
+INSERT INTO VEHICLE
+VALUES ('BMW7717', 'BMW','X4', 'Black', 2014, 4, 5, 200, '17-AUG-2021','O2');
+
+
+INSERT INTO Ragreement
+VALUES ('R010', '11-JAN-2022', '15-JAN-2022', '10000', '20000', 'TYPE1', 'C1', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R031', '13-MAR-2022', '15-MAR-2022', '60030', '60300', 'TYPE1', 'C1', 'SWF5515');
+INSERT INTO Ragreement
+VALUES ('R041', '01-APR-2022', '12-APR-2022', '20301', '30502', 'TYPE2', 'C2', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R071', '22-JUL-2022', '25-JUL-2022', '10000', '20000', 'TYPE2', 'C2', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R072', '01-JUL-2022', '12-JUL-2022', '14002', '14900', 'TYPE2', 'C2', 'BMW2212');
+INSERT INTO Ragreement
+VALUES ('R081', '08-AUG-2022', '23-AUG-2022', '14900', '15900', 'TYPE2', 'C1', 'BMW2212');
+INSERT INTO Ragreement
+VALUES ('R082', '01-AUG-2022', '04-AUG-2022', '18809', '18900', 'TYPE2', 'C2', 'AUD3303');
+INSERT INTO Ragreement
+VALUES ('R091', '08-SEP-2022', '20-SEP-2022', '22300', '23021', 'TYPE2', 'C2', 'AUD3303');
+INSERT INTO Ragreement
+VALUES ('R092', '22-SEP-2022', '23-SEP-2022', '21030', '21400', 'TYPE2', 'C1', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R111', TO_DATE('11-NOV-2022 08:30:24', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('14-NOV-2022 10:05:10', 'DD-MON-YYYY HH24:MI:SS'), '15900', '17890', 'Collision coverage', 'C1', 'BMW2212');
+INSERT INTO Ragreement
+VALUES ('R112', TO_DATE('13-NOV-2022 16:15:09', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('01-DEC-2022 11:42:16', 'DD-MON-YYYY HH24:MI:SS'), '30120', '32103', 'Comprehensive coverage', 'C2', 'LTC1111');
+INSERT INTO Ragreement
+VALUES ('R113', TO_DATE('02-NOV-2022 16:15:09', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('10-NOV-2022 11:42:16', 'DD-MON-YYYY HH24:MI:SS'), '23021', '24020', 'Comprehensive coverage', 'C3', 'AUD3303');
+INSERT INTO Ragreement
+VALUES ('R114', TO_DATE('05-SEP-2022 08:15:41', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-SEP-2022 12:35:18', 'DD-MON-YYYY HH24:MI:SS'), '18906', '19875', 'Comprehensive coverage', 'C1', 'NIS6626');
+INSERT INTO Ragreement
+VALUES ('R115', TO_DATE('3-OCT-2022 17:27:32', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('5-OCT-2022 08:17:21', 'DD-MON-YYYY HH24:MI:SS'), '16905', '17953', 'Liability coverage', 'C2', 'HOD4004');
+INSERT INTO Ragreement
+VALUES ('R116', TO_DATE('16-OCT-2022 15:09:33', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('19-OCT-2022 13:53:06', 'DD-MON-YYYY HH24:MI:SS'), '18007', '19605', 'Liability coverage', 'C3', 'HOD4004');
+INSERT INTO Ragreement
+VALUES ('R117', TO_DATE('25-NOV-2022 18:25:43', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('27-NOV-2022 09:38:20', 'DD-MON-YYYY HH24:MI:SS'), '19905', '20897', 'Liability coverage', 'C1', 'HOD4004');
+INSERT INTO Ragreement
+VALUES ('R118', TO_DATE('21-OCT-2022 08:56:21', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('23-OCT-2022 13:35:46', 'DD-MON-YYYY HH24:MI:SS'), '12480', '14796', 'Collision coverage', 'C5', 'BMW7717');
+INSERT INTO Ragreement
+VALUES ('R119', TO_DATE('05-DEC-2022 10:27:22', 'DD-MON-YYYY HH24:MI:SS'), TO_DATE('08-DEC-2022 11:11:09', 'DD-MON-YYYY HH24:MI:SS'), '20080', '21808', 'Comprehensive coverage', 'C4', 'NIS6626');
+
+
+INSERT INTO FaultReport
+VALUES ('FR1', '12-OCT-2022', 'Door is faulty', 'E4', 'HOD4004', 'R115');
+INSERT INTO FaultReport
+VALUES ('FR2', TO_DATE('23-NOV-2022 15:45:30', 'DD-MON-YYYY HH24:MI:SS'), 'Back left window is broken', 'E5', 'AUD3303', 'R113');
+INSERT INTO FaultReport
+VALUES ('FR3', '19-OCT-2022', 'Glasses are broken', 'E4', 'HOD4004', 'R116');
+INSERT INTO FaultReport
+VALUES ('FR4', '30-NOV-2022', 'Wheel broken ', 'E4', 'HOD4004', 'R117');
+
+
+SELECT * FROM Client;
+SELECT * FROM Vehicle;
+SELECT * FROM Employee;
+SELECT * FROM Outlet;
+SELECT * FROM Ragreement;
+select * FROM FaultReport;
